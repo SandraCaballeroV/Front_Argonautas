@@ -2,16 +2,23 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_USUARIOS } from 'graphql/usuario/queries';
 import { Link } from 'react-router-dom';
-import { Enum_Rol } from 'utils/enums';
+import { Enum_Rol, Enum_EstadoUsuario  } from 'utils/enums';
+import { toast } from 'react-toastify';
 
-const Usuarios = () => {
-  const { loading, error, data } = useQuery(GET_USUARIOS);
+const IndexUsuarios = () => {
+  const { data, error, loading } = useQuery(GET_USUARIOS);
 
-  if (loading) return <div>Loading...</div>;
+  useEffect(() => {
+    console.log('data servidor', data);
+  }, [data]);
 
-  if (error) return <div>Error...</div>;
+  useEffect(() => {
+    if (error) {
+      toast.error('Error consultando los usuarios');
+    }
+  }, [error]);
 
-  console.log(data);
+  if (loading) return <div>Cargando....</div>;
 
   return (
     <div>
@@ -24,6 +31,7 @@ const Usuarios = () => {
             <th>Correo</th>
             <th>Identificación</th>
             <th>Rol</th>
+            <th>Estado</th>
             <th>Editar</th>
           </tr>
         </thead>
@@ -37,6 +45,7 @@ const Usuarios = () => {
                   <td>{u.correo}</td>
                   <td>{u.identificacion}</td>
                   <td>{Enum_Rol[u.rol]}</td>
+                  <td>{Enum_EstadoUsuario[u.estado]}</td>
                   <td>
                     <Link to={`/usuarios/editar/${u._id}`}>
                       <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
@@ -51,4 +60,4 @@ const Usuarios = () => {
   );
 };
 
-export default Usuarios;
+export default IndexUsuarios;
