@@ -10,6 +10,7 @@ import { EDITAR_USUARIO } from 'graphql/usuario/mutations';
 import { toast } from 'react-toastify';
 import ButtonLoading from 'components/ButtonLoading';
 import { Enum_Rol } from 'utils/enums';
+import DropDown from 'components/Dropdown';
 
 const EditarUsuario = () => {
   const [userData, setUserData] = useState({});
