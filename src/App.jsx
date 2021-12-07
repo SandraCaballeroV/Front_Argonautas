@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Auth0Provider } from '@auth0/auth0-react';
 import PrivateLayout from "layouts/PrivateLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthContext } from "context/authContext";
@@ -8,6 +7,8 @@ import Index from "pages/Index";
 import Usuarios from "pages/usuarios/index";
 import IndexCategory1 from 'pages/category1/Index';
 import Category1 from 'pages/category1/CategoryPage1';
+import IndexUsuarios from 'pages/usuarios';
+import EditarUsuario from 'pages/usuarios/editar';
 import { ApolloProvider, createHttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
 import EditarUsuario from "pages/usuarios/editar";
 import "styles/globals.css";
@@ -18,30 +19,31 @@ import Login from "pages/auth/login";
 import { setContext } from '@apollo/client/link/context';
 
 
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache(),
+});
 
 function App() {
   const [userData, setUserData] = useState({});
 
   return (
-    <Auth0Provider
-      domain='misiontic-concesionario.us.auth0.com'
-      clientId='WsdhjjQzDLIZEHA6ouuxXGxFONFGAQ4g'
-      redirectUri='http://localhost:3000/admin'
-      audience='api-autenticacion-concesionario-mintic'
-    >
-      <UserContext.Provider value={{ userData, setUserData }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<PrivateLayout />}>
-              <Route path='' element={<Index />} />
-              <Route path='usuarios' element={<Usuarios />} />
-              <Route path='category1' element={<IndexCategory1 />} />
-              <Route path='category1/page1' element={<Category1 />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </UserContext.Provider>
-    </Auth0Provider>
+    <ApolloProvider client={client}>
+    <UserContext.Provider value={{ userData, setUserData }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<PrivateLayout />}>
+            <Route path='' element={<Index />} />
+            <Route path='/usuarios' element={<IndexUsuarios />} />
+            <Route path='/usuarios/editar/:_id' element={<EditarUsuario />} />
+            <Route path='page2' element={<Page2 />} />
+            <Route path='category1' element={<IndexCategory1 />} />
+            <Route path='category1/page1' element={<Category1 />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
+    </ApolloProvider>
   );
 }
 
