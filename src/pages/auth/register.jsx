@@ -20,6 +20,7 @@ const Register = () => {
   
   const [registro, { data: dataMutation, loading: loadingMutation, error: errorMutation }] =
   useMutation(REGISTRO);
+  
 
   const submitForm = (e) => {
     e.preventDefault();
