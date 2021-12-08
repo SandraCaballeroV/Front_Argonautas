@@ -39,6 +39,7 @@ function App() {
     console.log('dt token', data);
     if (data) {
       localStorage.setItem('token', JSON.stringify(data));
+      
     } 
   };
   return (
