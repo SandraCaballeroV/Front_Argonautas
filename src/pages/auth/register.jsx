@@ -27,6 +27,7 @@ const Register = () => {
     console.log("enviar datos al back",formData);
     registro({variables:formData});
    
+    
   };
   useEffect(()=>{
     console.log("data mutation", dataMutation);
