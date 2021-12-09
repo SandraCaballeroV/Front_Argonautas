@@ -4,4 +4,10 @@ const Enum_Rol = {
   LIDER: 'Líder',
 };
 
-export { Enum_Rol };
+const Enum_EstadoUsuario = {
+  PENDIENTE: 'Pendiente',
+  AUTORIZADO: 'Autorizado',
+  NO_AUTORIZADO: 'No autorizado',
+};
+
+export { Enum_Rol,  Enum_EstadoUsuario };

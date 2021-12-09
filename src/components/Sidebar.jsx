@@ -17,7 +17,7 @@ const Logo = () => {
   return (
     <div className='py-3 w-full flex flex-col items-center justify-center'>
       <img src='logo.png' alt='Logo' className='h-16' />
-      <span className='my-2 text-xl font-bold text-center'>GESTIÓN DE PROYECTOS</span>
+      <span className='my-2 text-xl font-bold text-center'>Argonautas GESTIÓN DE PROYECTOS</span>
     </div>
   );
 };
