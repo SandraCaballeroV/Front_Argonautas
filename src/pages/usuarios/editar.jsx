@@ -7,10 +7,8 @@ import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
 import { EDITAR_USUARIO } from 'graphql/usuarios/mutations';
-import DropDown from 'components/DropDown';
+import DropDown from 'components/Dropdown';
 import { Enum_EstadoUsuario } from 'utils/enums';
-
-
 const EditarUsuario = () => {
   const { form, formData, updateFormData } = useFormData(null);
   const { _id } = useParams();
@@ -21,12 +19,14 @@ const EditarUsuario = () => {
   } = useQuery(GET_USUARIO, {
     variables: { _id },
   });
-  console.log(queryData);
+
+  
+
   const [editarUsuario, { data: mutationData, loading: mutationLoading, error: mutationError }] =
     useMutation(EDITAR_USUARIO);
+
   const submitForm = (e) => {
     e.preventDefault();
-    console.log('fd', formData);
     delete formData.rol;
     editarUsuario({
       variables: { _id, ...formData },
