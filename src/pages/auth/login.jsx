@@ -12,29 +12,30 @@ import { useNavigate } from 'react-router';
 // import { useNavigate } from 'react-router-dom';
 
 const Login =() =>{
-    const { form, formData, updateFormData } = useFormData(null);
+  const { setToken } = useAuth();
+  const { form, formData, updateFormData } = useFormData(null);
+  let navigate = useNavigate();
 
-    const {setToken} = useAuth();
-    
-    const navigate = useNavigate();
+  const [login, { data: dataMutation, loading: loadingMutation, error: errorMutation }] =
+    useMutation(LOGIN);
 
-    const submitForm = (e) => {
-        e.preventDefault();
-        login({ variables: formData });
-      };
+  const submitForm = (e) => {
+    e.preventDefault();
+    login({ variables: formData });
+  };
     
-      const [login, { data: dataMutation, loading: loadingMutation, error: errorMutation }] =
-      useMutation(LOGIN);
+      
       
       useEffect(()=>{
         console.log("data mutation", dataMutation);
-        if(dataMutation){
-          if(dataMutation.login.token){
-            setToken("token",dataMutation.login.token);
-            navigate("/");
+        if (dataMutation) {
+          if (dataMutation.login.error) {
+            console.error('MOSTRAR MENSAJE DE ERROR AQUI');
           }
+          setToken(dataMutation.login.token);
+          navigate('/');
         }
-      },[dataMutation,setToken,navigate]);
+      }, [dataMutation, setToken, navigate]);
       
     return (
         <div className='flex flex-col items-center justify-center w-full h-full p-10'>

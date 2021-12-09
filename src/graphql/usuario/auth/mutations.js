@@ -31,4 +31,13 @@ const LOGIN = gql`
     }
   }
 `;
-export { REGISTRO, LOGIN };
+
+const VALIDATE_TOKEN = gql`
+  mutation Mutation {
+    validateToken {
+      token
+      error
+    }
+  }
+`;
+export { REGISTRO, LOGIN, VALIDATE_TOKEN };
