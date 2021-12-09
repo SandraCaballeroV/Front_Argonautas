@@ -4,7 +4,7 @@ import ButtonLoading from 'components/ButtonLoading';
 import { Link } from 'react-router-dom';
 import useFormData from 'hooks/useFormData';
 import { useMutation } from '@apollo/client';
-import { LOGIN } from 'graphql/usuario/auth/mutations';
+import { LOGIN } from 'graphql/auth/mutations';
 import { useAuth } from 'context/authContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,6 +25,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    console.log('data mutation', dataMutation);
     if (dataMutation) {
       if (dataMutation.login.token) {
         setToken(dataMutation.login.token);

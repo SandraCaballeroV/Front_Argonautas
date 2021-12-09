@@ -1,15 +1,39 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from 'context/authContext';
+import PrivateComponent from './PrivateComponent';
 
 const SidebarLinks = () => {
   return (
     <ul className='mt-12'>
       <SidebarRoute to='' title='Inicio' icon='fas fa-home' />
-      <SidebarRoute to='/usuarios' title='Usuarios' icon='fas fa-user' />
+    
+      <PrivateComponent roleList={['ADMINISTRADOR']}>
+        <SidebarRoute to='/usuarios' title='Usuarios' icon='fas fa-user' />
+      </PrivateComponent>
       <SidebarRoute to='/page2' title='Pagina2' icon='fas fa-smile-wink' />
       <SidebarRoute to='/category1' title='Catego 1' icon='fab fa-amazon' />
       <SidebarRoute to='/category1/page1' title='Test' icon='fas fa-car' />
+      <Logout />
     </ul>
+  );
+};
+
+const Logout = () => {
+  const { setToken } = useAuth();
+  const deleteToken = () => {
+    console.log('eliminar token');
+    setToken(null);
+  };
+  return (
+    <li onClick={() => deleteToken()}>
+      <NavLink to='/auth/login' className='sidebar-route text-red-700'>
+        <div className='flex items-center'>
+          <i className='fas fa-sign-out-alt' />
+          <span className='text-sm  ml-2'>Cerrar Sesión</span>
+        </div>
+      </NavLink>
+    </li>
   );
 };
 
@@ -17,17 +41,15 @@ const Logo = () => {
   return (
     <div className='py-3 w-full flex flex-col items-center justify-center'>
       <img src='logo.png' alt='Logo' className='h-16' />
-      <span className='my-2 text-xl font-bold text-center'>Argonautas GESTIÓN DE PROYECTOS</span>
+      <span className='my-2 text-xl font-bold text-center'>Título de Mi Aplicación</span>
     </div>
   );
 };
-
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   return (
     <div className='flex flex-col md:flex-row flex-no-wrap md:h-full'>
       {/* Sidebar starts */}
-
       <div className='sidebar hidden md:flex'>
         <div className='px-8'>
           <Logo />
@@ -43,7 +65,6 @@ const Sidebar = () => {
     </div>
   );
 };
-
 const ResponsiveSidebar = () => {
   return (
     <div>
@@ -59,7 +80,6 @@ const ResponsiveSidebar = () => {
     </div>
   );
 };
-
 const SidebarRoute = ({ to, title, icon }) => {
   return (
     <li>
@@ -79,5 +99,4 @@ const SidebarRoute = ({ to, title, icon }) => {
     </li>
   );
 };
-
 export default Sidebar;

@@ -8,30 +8,31 @@ import { Link } from 'react-router-dom';
 import { REGISTRO } from 'graphql/auth/mutations';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router';
-
+import { useAuth } from 'context/authContext';
 
 const Register = () => {
+  const { setToken } = useAuth();
   const navigate = useNavigate();
   const { form, formData, updateFormData } = useFormData();
 
   const [registro, { data: dataMutation, loading: loadingMutation, error: errorMutation }] =
     useMutation(REGISTRO);
-
   const submitForm = (e) => {
     e.preventDefault();
     console.log('enviar datos al backend', formData);
     registro({ variables: formData });
   };
-
   useEffect(() => {
     console.log('data mutation', dataMutation);
     if (dataMutation) {
       if (dataMutation.registro.token) {
-        localStorage.setItem('token', dataMutation.registro.token);
+        
+        setToken(dataMutation.registro.token);
         navigate('/');
       }
     }
-  }, [dataMutation]);
+
+  }, [dataMutation, setToken, navigate]);
 
   return (
     <div className='flex flex-col h-full w-full items-center justify-center'>
@@ -58,5 +59,4 @@ const Register = () => {
     </div>
   );
 };
-
 export default Register;
